@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const movieTitle = document.getElementById('movie-title');
   const movieDescription = document.getElementById('movie-description');
   const playerContainer = document.getElementById('player');
+  const moviePoster = document.getElementById('movie-poster');
 
   if (moviesContainer) {
     // We are on the main page
@@ -12,6 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
         movies.forEach(movie => {
           const card = document.createElement('div');
           card.className = 'movie-card';
+          
+          const poster = document.createElement('img');
+          poster.className = 'movie-poster';
+          poster.src = movie.poster;
           
           const title = document.createElement('h2');
           title.className = 'movie-title';
@@ -25,13 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
           link.href = `movie.html?id=${movie.id}`;
           link.textContent = 'Watch Now';
           
+          card.appendChild(poster);
           card.appendChild(title);
           card.appendChild(description);
           card.appendChild(link);
           moviesContainer.appendChild(card);
         });
       });
-  } else if (movieTitle && movieDescription && playerContainer) {
+  } else if (movieTitle && movieDescription && playerContainer && moviePoster) {
     // We are on the movie page
     const urlParams = new URLSearchParams(window.location.search);
     const movieId = urlParams.get('id');
@@ -43,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (movie) {
           movieTitle.textContent = movie.title;
           movieDescription.textContent = movie.description;
+          moviePoster.src = movie.poster;
           
           new Clappr.Player({
             source: movie.url,
